@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>enreda.coop</title>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+  <style type='text/css'>
+body {
+  font-family:'Helvetica';
+  letter-spacing:-5px;
+  background:#e9e2e2;
+  background-size:100%;
+  color:#fff;
+  margin:0;
+  padding:0;
+  font-weight:bold;
+}
+
+h1, h2, h3, p {
+  margin:0;
+}
+
+em, a {
+  font-style:normal;
+  color:#000;
+}
+
+a {
+  background:#db5024;
+  color:#fff;
+  
+}
+
+img {
+  width:100%;
+}
+
+div {
+  cursor:pointer;
+  cursor:hand;
+  position:absolute;
+  top:0px;
+  left:0px;
+  padding:75px;
+  line-height:97%;
+}
+
+.center {
+  text-align:center;
+}
+
+div.imageText {
+  text-shadow:0px 0px 5px rgba(0,0,0,0.2);
+}
+
+notes {
+    display:none;
+}
+
+.enreda {
+  color:#db5024
+}
+</style><script type='text/javascript'>
+window.onload = function() {
+    var s = document.getElementsByTagName('div'), ti;
+    if (!s) return;
+    var big = { current: 0, forward: fwd, reverse: rev, go: go, length: s.length };
+    window.big = big;
+    function resize() {
+        var w = window.innerWidth, h = window.innerHeight, e = s[big.current];
+        e.style.fontSize = h + 'px';
+        for (var i = h - 2; e.offsetWidth > w || e.offsetHeight > h; i -= 2) {
+            e.style.fontSize = i + 'px';
+        }
+        e.style.marginTop = ((h - e.offsetHeight) / 2) + 'px';
+    }
+    function go(n) {
+        big.current = n;
+        var e = s[n], t = parseInt(e.getAttribute('data-timeToNext') || 0, 10),
+            notes = e.getElementsByTagName('notes');
+        document.body.className = e.getAttribute('data-bodyclass') || '';
+        for (var k = 0; k < s.length; k++) s[k].style.display = 'none';
+        e.style.display = 'inline';
+        for (k = 0; typeof console === 'object' && k < notes.length; k++) console.log('%c%s: %s', 'padding:5px;font-family:serif;font-size:18px;line-height:150%;', n, notes[k].innerHTML.trim());
+        if (e.firstChild && e.firstChild.nodeName === 'IMG') {
+            document.body.style.backgroundImage = 'url("' + e.firstChild.src + '")';
+            e.firstChild.style.display = 'none';
+            if ('classList' in e) e.classList.add('imageText');
+        } else {
+            document.body.style.backgroundImage = '';
+            document.body.style.backgroundColor = e.style.backgroundColor;
+        }
+        if (ti !== undefined) window.clearInterval(ti);
+        if (t > 0) ti = window.setTimeout(fwd, (t * 1000));
+        resize();
+        if (window.location.hash !== n) window.location.hash = n;
+        document.title = e.textContent || e.innerText;
+    }
+    document.onclick = function() { go(++big.current % (s.length)); };
+    function fwd() { go(Math.min(s.length - 1, ++big.current)); }
+    function rev() { go(Math.max(0, --big.current)); }
+    document.onkeydown = function(e) {
+        if (e.which === 39 || e.which === 34 || e.which === 40) fwd();
+        if (e.which === 37 || e.which === 33 || e.which === 38) rev();
+    };
+    document.ontouchstart = function(e) {
+        var x0 = e.changedTouches[0].pageX;
+        document.ontouchend = function(e2) {
+            var x1 = e2.changedTouches[0].pageX;
+            if (x1 - x0 < 0) fwd();
+            if (x1 - x0 > 0) rev();
+        };
+    };
+    function parse_hash() {
+        return Math.max(Math.min(s.length - 1,
+            parseInt(window.location.hash.substring(1), 10)), 0);
+    }
+    if (window.location.hash) big.current = parse_hash() || big.current;
+    window.onhashchange = function() {
+        var c = parse_hash();
+        if (c !== big.current) go(c);
+    };
+    window.onresize = resize;
+    go(big.current);
+};
+</script>
+</head>
+<body>
+<div><img src="./enreda.png"></div>
+<div> <em>Tecnología</em> <br> para la <span style="color:#db5024">Transformación Social</span></div>
+<div> 
+            <h3 class="enreda">Cooperativismo</h3>
+                        <p class="text-muted">Creemos en el valor social y democrático de las empresas. Mejor cooperar que competir.</p>
+                        <h3 class="enreda">Libertad tecnológica</h3>
+                        <p class="text-muted">Apostamos por el Software Libre y la libertad tecnológica en todos los ámbitos.</p>
+                        <h3 class="enreda">Compromiso social</h3>
+                        <p class="text-muted">Todas y todos podemos y debemos ser parte del cambio social para mejorar el mundo en el que vivimos. Desde lo local hacia lo global.</p>
+
+ </div>
+<div>¿Qué hacemos?</div>
+<div><h3 class="enreda">ECONOMIA SOCIAL</h3>Construyendo la nueva economia social<br>
+<br><h3 class="enreda">TRANSPARENCIA Y PARTICIPACIÓN</h3>Avanzando hacia una democracia real<br>
+<br><h3 class="enreda">INNOVACIÓN SOCIAL TECNOLÓGICA</h3>La tecnología al servicio de la sociedad<br>
+<br><h3 class="enreda">COMUNICACIÓN</h3>La comunicación como herramienta de cambio
+</div>
+
+<div class="center"><a href="http://enreda.coop/trabajos/" target="_blank">Trabajos realizados</a><br> y los <i class="enreda">porqués</i></div>
+<div><h3 class="enreda">lacentral.coop</h3>  <h3 class="enreda">somos.coop</h3> <i>plataformas para poner en valor los principios del cooperativismo.</i> </div>
+<div><h3 class="enreda">tipiciudadno.es</h3> <i> fortalecer las capacidades de la sociedad civil, para incidir en los procesos de toma de decisión política</i> </div>
+<div><h3 class="enreda">conilhospeda.com</h3> <i>nuevos modelos económicos y TIC para sectores como el turístico</i></div>
+<div><h3 class="enreda">enlaorbita.com</h3> <i>acercar soluciones tecnológicas a todas las entidades</i></div>
+<div class="center"><span style="font-size:75%;">...</span><br><span class="enreda">¿Por qué?</span></div>
+
+<div> <span class="enreda">enreda.<em>coop</em></div>
+<div> <span class="enreda">Economía Social</span> y <em>Tecnología</em> </div>
+
+</body>
